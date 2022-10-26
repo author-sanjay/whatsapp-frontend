@@ -1,44 +1,37 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import "./Chat.css"
-function Chatbody() {
+
+function Chatbody(props) {
+    
   return (
+    
     <div className='chat__body'>
-        <p className="chat__message">
+        
+        <p className={"chat__message chat__received"}>
             <span className="chat__name">
-                Sanjay
+                Sajau
             </span>
-            This is a message
+            Message
             <span className='chat__timestamp'>
-                {new Date().toUTCString()}
+                Time
             </span>
         </p>
-        <p className="chat__message">
-            <span className="chat__name">
-                Sanjay
-            </span>
-            This is a message
-            <span className='chat__timestamp'>
-                {new Date().toUTCString()}
-            </span>
-        </p>
-        <p className="chat__message">
-            <span className="chat__name">
-                Sanjay
-            </span>
-            This is a message
-            <span className='chat__timestamp'>
-                {new Date().toUTCString()}
-            </span>
-        </p>
-        <p className="chat__message chat__reciever">
-            <span className="chat__name">
-                Sanjay
-            </span>
-            This is a message
-            <span className='chat__timestamp'>
-                {new Date().toUTCString()}
-            </span>
-        </p>
+        <>
+        {
+            props.mess.map((data)=>{
+                console.log(data._id);
+                <p className={"chat__message chat__received"}>
+                <span className="chat__name">
+                    {data.name}
+                </span>
+                {data.message}
+                <span className='chat__timestamp'>
+                    {data.timestamp}
+                </span>
+            </p>
+            })
+        }
+        </>
     </div>
   )
 }
