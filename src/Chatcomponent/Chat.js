@@ -3,42 +3,26 @@ import "./Chat.css";
 import Chatbody from "./Chatbody";
 import Chatfooter from "./Chatfooter";
 import Chatheader from "./Chatheader";
-import Pusher from "pusher-js"
-import axios from "../axios.js";
 
-function Chat() {
-  const [messages,setMessages]=useState([])
-    useEffect(()=>{
-
-      axios.get('/api/messages/sync')
-      .then(response=>{
-          setMessages(response.data)
-        }
-      )
-    },[])
-    useEffect(()=>{
-       var pusher = new Pusher('9e3a199104fea69bb83a', {
-         cluster: 'ap2'
-       });
-   
-       var channel = pusher.subscribe('messages');
-       channel.bind('inserted', function(newMessages) {
-        //  alert(JSON.stringify(newMessages));
-         setMessages([...messages,newMessages])
-       });
-  
-       return ()=>{
-        channel.unbind_all();
-        channel.unsubscribe();
-       };
-    },[messages])
-
-    
-  
+function Chat({ mess }) {
   return (
     <div className="chat">
       <Chatheader />
-      <Chatbody mess={messages} />
+      <div className="chat__body">
+        <p className={"chat__message chat__received"}>
+          <span className="chat__name">Sajau</span>
+          Message
+          <span className="chat__timestamp">Time</span>
+        </p>
+
+        {mess.map((data) => (
+          <p className={`chat__message ${data.received && "chat__reciever"}`}>
+            <span className="chat__name">{data.name}</span>
+            {data.message}
+            <span className="chat__timestamp">{data.timestamp}</span>
+          </p>
+        ))}
+      </div>
       <Chatfooter />
     </div>
   );
